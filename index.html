@@ -1622,7 +1622,7 @@ function handleRegister(e) {
 
   if (typeof PaystackPop !== 'undefined' && PAYSTACK_KEY !== 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182') {
     const handler = PaystackPop.setup({
-      key: PAYSTACK_KEY,
+      key: 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182',
       email: email,
       amount: 200000, // ₦2,000 in kobo
       currency: 'NGN',
