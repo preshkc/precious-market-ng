@@ -1006,12 +1006,12 @@ footer {
 <div class="ticker-bar" role="marquee" aria-label="Live updates">
   <div class="ticker-inner" id="ticker">
     <span class="ticker-item"><span class="ticker-dot"></span> Hunt #4 launches August 9, 2025</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> 847 hunters already registered</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> <span id="ticker-hunters-1">Hunters registering now</span></span>
     <span class="ticker-item"><span class="ticker-dot"></span> Prize pool: ₦500,000</span>
     <span class="ticker-item"><span class="ticker-dot"></span> Clues span TikTok · Instagram · YouTube · Wikipedia · Facebook</span>
     <span class="ticker-item"><span class="ticker-dot"></span> Corporate sponsorships open — limited slots</span>
     <span class="ticker-item"><span class="ticker-dot"></span> Hunt #4 launches August 9, 2025</span>
-    <span class="ticker-item"><span class="ticker-dot"></span> 847 hunters already registered</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> <span id="ticker-hunters-2">Hunters registering now</span></span>
     <span class="ticker-item"><span class="ticker-dot"></span> Prize pool: ₦500,000</span>
     <span class="ticker-item"><span class="ticker-dot"></span> Clues span TikTok · Instagram · YouTube · Wikipedia · Facebook</span>
     <span class="ticker-item"><span class="ticker-dot"></span> Corporate sponsorships open — limited slots</span>
@@ -1076,7 +1076,7 @@ footer {
 
   <div class="live-stats reveal">
     <div class="live-stat">
-      <span class="live-stat-num" id="stat-hunters">847</span>
+      <span class="live-stat-num" id="stat-hunters">–</span>
       <span class="live-stat-label">Hunters Registered</span>
     </div>
     <div class="stat-divider"></div>
@@ -1091,7 +1091,7 @@ footer {
     </div>
     <div class="stat-divider"></div>
     <div class="live-stat">
-      <span class="live-stat-num" id="stat-slots">153</span>
+      <span class="live-stat-num" id="stat-slots">–</span>
       <span class="live-stat-label">Slots Remaining</span>
     </div>
   </div>
@@ -1320,7 +1320,7 @@ footer {
         <div class="entry-progress">
           <div class="ep-header">
             <span class="ep-label">Spots filled</span>
-            <span class="ep-count"><span id="prog-count">847</span>/1000</span>
+            <span class="ep-count"><span id="prog-count">–</span>/1000</span>
           </div>
           <div class="ep-bar">
             <div class="ep-fill" id="prog-fill"></div>
@@ -1371,7 +1371,7 @@ footer {
           <span class="price-label">entry fee · paid securely via Paystack</span>
         </div>
 
-        <form id="hunt-form" onsubmit="handleRegister(event)">
+        <form id="hunt-form" onsubmit="event.preventDefault(); window.location.href='register.html';">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="fname">First Name</label>
@@ -1539,7 +1539,7 @@ footer {
 <!-- TOAST -->
 <div class="toast" id="toast">✅ Redirecting to Paystack...</div>
 
-<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ── COUNTDOWN ──
 const huntDate = new Date('2025-08-09T18:00:00+01:00');
@@ -1565,31 +1565,44 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// ── LIVE COUNTER ──
-let hunters = 847;
-let slots   = 153;
-function tickHunters() {
-  if (hunters >= 1000) return;
-  const add = Math.floor(Math.random() * 3);
-  if (add === 0) return;
-  hunters = Math.min(1000, hunters + add);
-  slots   = Math.max(0, 1000 - hunters);
+// ── LIVE COUNTER (real data from Supabase) ──
+// Keep these in sync with register.html — same project, same hunt.
+const SUPABASE_URL = 'https://imczxdzkwmkfcwqjwvde.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltY3p4ZHprd21rZmN3cWp3dmRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3OTgzMTYsImV4cCI6MjEwMDM3NDMxNn0.xMzDwpRViI_lQdLbEKdY6xWvIjcoWGtXayIa0jUJZDg';
+const HUNT_ID = 'e0753eb8-4fa1-4cf3-b612-46891dfd501a';
+const HUNT_CAPACITY = 1000; // update if the real cap changes
+
+const sbStats = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function refreshHunterStats() {
+  const { data, error } = await sbStats.rpc('get_hunt_stats', { p_hunt_id: HUNT_ID });
+  if (error || !data || !data.length) {
+    console.error('Could not load hunter stats:', error?.message || error?.code || JSON.stringify(error));
+    return; // leave the last-known good numbers on screen rather than showing 0
+  }
+
+  const hunters = Number(data[0].hunters_registered) || 0;
+  const slots = Math.max(0, HUNT_CAPACITY - hunters);
+  const pct = Math.min(100, (hunters / HUNT_CAPACITY) * 100);
+
   const hEl = document.getElementById('stat-hunters');
   const sEl = document.getElementById('stat-slots');
   const pEl = document.getElementById('prog-count');
+  const fill = document.getElementById('prog-fill');
+  const t1 = document.getElementById('ticker-hunters-1');
+  const t2 = document.getElementById('ticker-hunters-2');
+
   if (hEl) hEl.textContent = hunters.toLocaleString();
   if (sEl) sEl.textContent = slots.toLocaleString();
   if (pEl) pEl.textContent = hunters.toLocaleString();
-  const fill = document.getElementById('prog-fill');
-  if (fill) fill.style.width = (hunters / 1000 * 100).toFixed(1) + '%';
+  if (fill) fill.style.width = pct.toFixed(1) + '%';
+  const tickerText = `${hunters.toLocaleString()} hunters already registered`;
+  if (t1) t1.textContent = tickerText;
+  if (t2) t2.textContent = tickerText;
 }
-setInterval(tickHunters, 7000 + Math.random() * 8000);
 
-// Animate progress bar on load
-setTimeout(() => {
-  const fill = document.getElementById('prog-fill');
-  if (fill) fill.style.width = '84.7%';
-}, 600);
+refreshHunterStats();
+setInterval(refreshHunterStats, 30000); // poll every 30s — real number, not a fake tick
 
 // ── SCROLL REVEAL ──
 const observer = new IntersectionObserver((entries) => {
@@ -1611,44 +1624,11 @@ function showToast(msg, duration = 3500) {
 }
 
 // ── FORM SUBMIT ──
-function handleRegister(e) {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const fname = document.getElementById('fname').value;
-  const lname = document.getElementById('lname').value;
-
-  // In production: replace with your real Paystack public key
-  const PAYSTACK_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
-
-  if (typeof PaystackPop !== 'undefined' && PAYSTACK_KEY !== 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182') {
-    const handler = PaystackPop.setup({
-      key: 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182',
-      email: email,
-      amount: 200000, // ₦2,000 in kobo
-      currency: 'NGN',
-      ref: 'HAUNTER-' + Date.now(),
-      metadata: {
-        custom_fields: [
-          { display_name: 'Hunter Name', variable_name: 'hunter_name', value: fname + ' ' + lname },
-          { display_name: 'City', variable_name: 'city', value: document.getElementById('city').value },
-          { display_name: 'Referral', variable_name: 'referral', value: document.getElementById('ref').value }
-        ]
-      },
-      callback: function(response) {
-        showToast('✅ Payment confirmed! Check your email for your Hunter Code.');
-        document.getElementById('hunt-form').reset();
-      },
-      onClose: function() {
-        showToast('⚠ Payment cancelled. Your spot is not reserved.');
-      }
-    });
-    handler.openIframe();
-  } else {
-    // Demo mode — show confirmation
-    showToast('✅ ' + fname + ', you\'re registered! Hunter Code sent to ' + email);
-    document.getElementById('hunt-form').reset();
-  }
-}
+// The hunt-form's onsubmit now forwards straight to register.html, which
+// runs the real flow (Supabase insert + live Paystack key + server-verified
+// webhook). This fake handler — with its placeholder Paystack key and the
+// "demo mode" branch that faked a success toast with no real charge or
+// database write — has been removed so it can't accidentally fire again.
 
 // ── SMOOTH SCROLL ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {

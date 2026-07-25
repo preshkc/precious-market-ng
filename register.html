@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>THE LAST HUNT 9JA - Register</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; }
+    input, button { width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; }
+    button { background: #000; color: #fff; border: none; cursor: pointer; font-weight: bold; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <h2>Register for THE LAST HUNT 9JA</h2>
+  <p>Entry Fee: ₦2,000</p>
+
+  <!-- YOUR FORM HTML -->
+  <form id="registerForm">
+    <input id="name" placeholder="Full Name" required />
+    <input id="email" type="email" placeholder="Email" required />
+    <input id="phone" placeholder="Phone" required />
+    <input id="city" placeholder="City" required />
+    <button type="submit">Pay & Get Hunter Code</button>
+  </form>
+
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  // ================= CONFIG - REPLACE THESE =================
+  const SUPABASE_URL = 'https://imczxdzkwmkfcwqjwvde.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltY3p4ZHprd21rZmN3cWp3dmRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3OTgzMTYsImV4cCI6MjEwMDM3NDMxNn0.xMzDwpRViI_lQdLbEKdY6xWvIjcoWGtXayIa0jUJZDg';
+  const PAYSTACK_PUBLIC_KEY = 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182';
+  const HUNT_ID = 'e0753eb8-4fa1-4cf3-b612-46891dfd501a'; // <-- YOUR HUNT ID
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // PATCH 1: DB now auto-generates hunter_code
+
+  let submitting = false;
+
+  async function handleRegister(e) {
+    e.preventDefault();
+    if (submitting) return;
+    submitting = true;
+
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Please wait...';
+
+    try {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const phone = document.getElementById('phone').value.trim();
+      const city = document.getElementById('city').value.trim();
+
+      const hunter_id = crypto.randomUUID();
+
+      // 1. Verify hunt exists and is open
+      const { data: hunt, error: huntError } = await sb
+        .from('hunts')
+        .select('entry_fee, status')
+        .eq('id', HUNT_ID)
+        .single();
+
+      if (huntError || !hunt) {
+        alert('Could not load this hunt. Please try again shortly.');
+        return;
+      }
+      if (hunt.status !== 'scheduled' && hunt.status !== 'active') {
+        alert('Registration is not currently open for this hunt.');
+        return;
+      }
+
+      // PATCH 2: Verify amount before sending to paystack. 200000 = ₦2000 in kobo
+      if (hunt.entry_fee !== 200000) {
+        alert('Invalid entry fee detected');
+        return;
+      }
+
+      // 2. Create hunter record. DB trigger will generate hunter_code
+      const { data: hunterData, error: hunterError } = await sb.from('hunters').insert([{
+        id: hunter_id,
+        hunt_id: HUNT_ID,
+        name,
+        email,
+        phone,
+        city
+      }]).select('hunter_code').single(); // <-- GET DB-GENERATED CODE BACK
+
+      if (hunterError) {
+        if (hunterError.code === '23505') {
+          alert("Looks like you've already registered for this hunt with this email/phone. Check your email for your Hunter Code, or contact support to resend it.");
+        } else {
+          alert('Registration error: ' + hunterError.message);
+        }
+        return;
+      }
+
+      // 3. Create pending payment record
+      const reference = 'TLH9JA_' + Date.now();
+      const { error: paymentInsertError } = await sb.from('payments').insert([{
+        hunter_id,
+        amount: hunt.entry_fee,
+        paystack_ref: reference,
+        status: 'pending'
+      }]);
+      if (paymentInsertError) {
+        alert('Could not start payment: ' + paymentInsertError.message);
+        return;
+      }
+
+      // 4. Open Paystack
+      const handler = PaystackPop.setup({
+        key: PAYSTACK_PUBLIC_KEY,
+        email: email,
+        amount: hunt.entry_fee,
+        currency: 'NGN',
+        ref: reference,
+        metadata: { hunter_id, hunter_code: hunterData.hunter_code, hunt_id: HUNT_ID },
+        callback: function(response) {
+          // FIX: redirect path now matches the actual deployed filename "thank-you.html"
+          // Make sure thank-you.html is uploaded in the SAME folder as this file.
+          window.location.href =
+            `./thank-you.html?ref=${encodeURIComponent(response.reference)}&code=${encodeURIComponent(hunterData.hunter_code)}`;
+        },
+        onClose: function() {
+          alert('Payment window closed. You can resume payment any time — your registration is saved.');
+        }
+      });
+      handler.openIframe();
+
+    } catch (err) {
+      alert('Something went wrong: ' + err.message);
+    } finally {
+      submitting = false;
+      btn.disabled = false;
+      btn.textContent = 'Pay & Get Hunter Code';
+    }
+  }
+
+  document.getElementById('registerForm').addEventListener('submit', handleRegister);
+  </script>
+</body>
+</html>
