@@ -5,85 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE LAST HAUNTER 9JA — The Social Media Treasure Hunt</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Crimson+Pro:ital,wght@1,400;1,600&display=swap');
-
-:root {
-  --navy: #0B1120; --navy2: #111827; --navy3: #1a2640;
-  --red: #C0392B; --wine: #6B1A2A; --orange: #E8590C;
-  --gold: #F5A623; --white: #F7F4EF; --muted: #8A9BB5;
-  --border: rgba(255,255,255,0.08); --glow-r: rgba(192,57,43,0.35);
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; line-height: 1.6; }
-a { color: inherit; text-decoration: none; }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-/* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; background: rgba(11,17,32,0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
-.nav-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1.5px; color: var(--white); }
-.nav-logo-text span { color: var(--orange); }
-.nav-cta { background: var(--red); color: var(--white); font-size: 13px; font-weight: 700; padding: 9px 20px; border-radius: 7px; letter-spacing: 0.3px; }
-
-/* HERO */
-.hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; }
-.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 10vw, 110px); line-height: 0.92; letter-spacing: 3px; color: var(--white); }
-.hero-title.accent-red { color: var(--red); }.hero-title.accent-orange { color: var(--orange); }
-.hero-subtitle { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: clamp(18px, 3vw, 26px); color: var(--muted); margin-bottom: 48px; max-width: 560px; }
-
-/* BUTTON */
-.register-btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--red), var(--wine)); color: var(--white); font-size: 15px; font-weight: 700; padding: 16px 36px; border-radius: 10px; letter-spacing: 0.5px; box-shadow: 0 4px 32px var(--glow-r); transition: all 0.25s; border: none; }
+/* ... KEEP ALL YOUR ORIGINAL CSS ... */
+.register-btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--red), var(--wine)); color: var(--white); font-size: 15px; font-weight: 700; padding: 16px 36px; border-radius: 10px; letter-spacing: 0.5px; box-shadow: 0 4px 32px var(--glow-r); transition: all 0.25s; border: none; text-decoration:none; }
 .register-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px var(--glow-r); background: linear-gradient(135deg, var(--orange), var(--red)); }
-
-/* SECTIONS */
-.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 6vw, 58px); letter-spacing: 1.5px; color: var(--white); margin-bottom: 16px; }
-.entry-section { padding: 100px 0; background: var(--navy); position: relative; }
-.entry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 20px; }
-.entry-form-card { background: var(--navy3); border: 1px solid var(--border); border-radius: 18px; padding: 32px; text-align: center; }
-.entry-price-badge { display: inline-flex; gap: 4px; background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.35); border-radius: 10px; padding: 8px 16px; margin-bottom: 24px; }
-.price-naira { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: var(--orange); }
-
-@media (max-width: 768px) {.entry-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
+<!-- TICKER - FIXED -->
+<div class="ticker-bar">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item"><span class="ticker-dot"></span> Hunt #5 launches August 31, 2026</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> <span id="ticker-hunters-1">Hunters registering now</span></span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Prize pool: ₦500,000</span>
+    <!-- ... rest of ticker ... -->
+    <span class="ticker-item"><span class="ticker-dot"></span> Hunt #5 launches August 31, 2026</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> <span id="ticker-hunters-2">Hunters registering now</span></span>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo-text">THE LAST <span>HAUNTER</span> 9JA</div>
-  <a href="#register" class="nav-cta">Enter Hunt →</a>
+  <a href="register.html" class="nav-cta">Enter Hunt →</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-eyebrow"><span class="live-pulse"></span> Hunt #5 — Registration Open</div>
   <h1 class="hero-title">THE LAST<br><span class="accent-red">HAUNTER</span><br><span class="accent-orange">9JA</span></h1>
-  <p class="hero-subtitle">Nigeria's most electrifying social media treasure hunt. Hunt #4 starts August 3, 2026</p>
-  <a href="#register" class="register-btn">Enter Hunt — ₦2,000 →</a>
+  <p class="hero-subtitle">Nigeria's most electrifying social media treasure hunt.</p>
+  <div class="hero-btns reveal">
+    <a href="register.html" class="btn-enter">Enter Hunt — ₦2,000 <span class="arrow">→</span></a>
+    <a href="#how" class="btn-watch">How It Works ↓</a>
+  </div>
 </section>
 
-<!-- REGISTRATION -->
+<!-- ... KEEP ALL YOUR OTHER SECTIONS EXACTLY AS THEY WERE ... -->
+
+<!-- REGISTRATION - FIXED -->
 <section class="entry-section" id="register">
   <div class="container">
     <div class="entry-grid">
-      <div>
-        <h2 class="section-title">SECURE YOUR<br><span style="color:var(--red)">SPOT NOW</span></h2>
-        <p style="color:var(--muted)">1,000 slots per hunt. Pay, receive your Hunter Code, and prepare for August 3, 2026 at 6:00PM.</p>
+      <div class="entry-info reveal">
+        <div class="section-eyebrow">Enter The Hunt</div>
+        <h3>SECURE YOUR<br><span>SPOT NOW</span></h3>
+        <p style="font-size:14px;color:var(--muted)">1,000 slots per hunt. Pay, receive your Hunter Code, and prepare for August 31, 2026.</p> <!-- FIXED DATE -->
+        <!-- KEEP PROGRESS BAR + PERKS -->
       </div>
-
-      <!-- BUTTON INSTEAD OF FORM -->
-      <div class="entry-form-card">
-        <h3 style="font-family:'Bebas Neue'; font-size:28px;">REGISTER FOR HUNT #4</h3>
-        <p style="color:var(--muted); margin-bottom:20px;">August 3, 2026 · 6:00PM Nigeria Time</p>
+      <div class="entry-form-card reveal">
+        <div class="form-header">
+          <h3>REGISTER FOR HUNT #5</h3> <!-- FIXED -->
+          <p>August 31, 2026 · 6:00PM Nigeria Time</p>
+        </div>
         <div class="entry-price-badge">
           <span class="price-naira">₦2,000</span>
-          <span style="font-size:12px; color:var(--muted)">entry fee · Paystack</span>
+          <span class="price-label">entry fee · paid securely via Paystack</span>
         </div>
         <a href="register.html" class="register-btn">🔒 Pay ₦2,000 & Enter Hunt</a>
-        <p style="font-size:11px; color:var(--muted); margin-top:12px;">🔒 Secured by Paystack · No refunds after payment</p>
+        <p class="form-note">🔒 Secured by Paystack · No refunds after payment</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- FOOTER + SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const huntDate = new Date('2026-08-31T18:00:00+01:00'); // CORRECT
+// ... KEEP ALL YOUR ORIGINAL JS ...
+</script>
 </body>
 </html>
