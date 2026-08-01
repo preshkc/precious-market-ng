@@ -1,524 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>THE LAST HAUNTER 9JA — Registration</title>
-<style>
-  :root{
-    --bg:#0A0A0A;
-    --card:#151515;
-    --border:#262626;
-    --orange:#E8590C;
-    --gold:#F5A623;
-    --white:#F5F5F5;
-    --muted:#8A9BB5;
-    --opay-green:#00A651;
-    --moniepoint-navy:#122649;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-    background:var(--bg);
-    color:var(--white);
-    display:flex;
-    justify-content:center;
-    padding:48px 16px;
-  }
-  .wrap{ width:100%; max-width:480px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>THE LAST HAUNTER 9JA — Register</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Crimson+Pro:ital,wght@1,400;1,600&display=swap');
 
-  .mark{
-    width:64px; height:64px; border-radius:50%;
-    border:2px solid var(--orange);
-    display:flex; align-items:center; justify-content:center;
-    margin:0 auto 20px;
-  }
-  .mark svg{ width:30px; height:30px; }
+    :root{
+      --navy:#0B1120;
+      --navy2:#111827;
+      --navy3:#1a2640;
+      --red:#C0392B;
+      --wine:#6B1A2A;
+      --orange:#E8590C;
+      --gold:#F5A623;
+      --white:#F7F4EF;
+      --muted:#8A9BB5;
+      --border:rgba(255,255,255,0.08);
+      --glow-r:rgba(192,57,43,0.35);
+      --opay-green:#00A651;
+      --moniepoint-navy:#122649;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      font-family:'Inter', sans-serif;
+      background:var(--navy);
+      color:var(--white);
+      margin:0;
+      display:flex;
+      justify-content:center;
+      padding:56px 16px;
+      line-height:1.6;
+    }
+    .wrap{ width:100%; max-width:480px; }
 
-  h1{
-    font-family:Georgia,"Times New Roman",serif;
-    text-align:center;
-    font-size:26px;
-    margin:0 0 4px;
-    letter-spacing:0.5px;
-  }
-  h1 span{ color:var(--orange); }
-  .sub{
-    text-align:center;
-    color:var(--muted);
-    font-size:14px;
-    margin:0 0 32px;
-  }
+    .nav-back{ display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--muted); text-decoration:none; margin-bottom:28px; }
+    .nav-back:hover{ color:var(--white); }
 
-  .card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:28px;
-  }
+    .mark{
+      width:60px; height:60px; border-radius:12px;
+      background:linear-gradient(135deg, var(--red), var(--wine));
+      display:flex; align-items:center; justify-content:center;
+      font-size:26px;
+      margin:0 auto 18px;
+      box-shadow:0 0 20px var(--glow-r);
+    }
 
-  .field{ margin-bottom:18px; }
-  .field:last-of-type{ margin-bottom:0; }
-  label{
-    display:block;
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:0.6px;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:7px;
-  }
-  input, select{
-    width:100%;
-    padding:12px 14px;
-    background:#0F0F0F;
-    border:1px solid var(--border);
-    border-radius:8px;
-    color:var(--white);
-    font-size:15px;
-    font-family:inherit;
-  }
-  input::placeholder{ color:#555; }
-  input:focus, select:focus{
-    outline:none;
-    border-color:var(--orange);
-    box-shadow:0 0 0 3px rgba(232,89,12,0.15);
-  }
-  select{ appearance:none; cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%238A9BB5' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;
-    background-position:right 14px center;
-    padding-right:36px;
-  }
+    h1{
+      font-family:'Bebas Neue', sans-serif;
+      text-align:center;
+      font-size:34px;
+      letter-spacing:1px;
+      margin:0 0 6px;
+    }
+    h1 span{ color:var(--orange); }
+    .sub{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin:0 0 8px;
+    }
+    .fee-badge{
+      display:flex; align-items:baseline; justify-content:center; gap:6px;
+      margin:0 0 32px;
+    }
+    .fee-badge .amt{ font-family:'Bebas Neue', sans-serif; font-size:22px; color:var(--gold); }
+    .fee-badge .label{ font-size:12px; color:var(--muted); }
 
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .card{
+      background:var(--navy2);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:28px;
+    }
 
-  .terms{
-    margin-top:22px;
-    border:1px solid var(--orange);
-    border-radius:10px;
-    padding:16px;
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-    background:rgba(232,89,12,0.06);
-  }
-  .terms input[type="checkbox"]{
-    width:18px; height:18px; margin-top:2px; accent-color:var(--orange); flex:none;
-  }
-  .terms p{
-    margin:0; font-size:13px; line-height:1.5; color:var(--white);
-  }
-  .terms a{ color:var(--gold); text-decoration:underline; }
+    .field{ margin-bottom:16px; }
+    .field:last-of-type{ margin-bottom:0; }
+    label{
+      display:block;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.6px;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:7px;
+    }
+    input, select{
+      width:100%;
+      padding:12px 14px;
+      background:var(--navy);
+      border:1px solid var(--border);
+      border-radius:8px;
+      color:var(--white);
+      font-size:15px;
+      font-family:inherit;
+    }
+    input::placeholder{ color:#5c6b85; }
+    input:focus, select:focus{
+      outline:none;
+      border-color:var(--orange);
+      box-shadow:0 0 0 3px rgba(232,89,12,0.15);
+    }
+    select{ appearance:none; cursor:pointer;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%238A9BB5' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 14px center;
+      padding-right:36px;
+    }
+    :focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 
-  /* Payment section */
-  .pay-section{
-    margin-top:24px;
-    border-top:1px dashed var(--border);
-    padding-top:22px;
-  }
-  .pay-label{
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:0.6px;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:12px;
-  }
-  .pay-options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-  }
-  .pay-btn{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    padding:16px 10px;
-    border-radius:10px;
-    border:1px solid var(--border);
-    background:#0F0F0F;
-    text-decoration:none;
-    cursor:pointer;
-    transition:border-color .15s ease, transform .1s ease;
-  }
-  .pay-btn:hover{ transform:translateY(-1px); }
-  .pay-btn.opay:hover{ border-color:var(--opay-green); }
-  .pay-btn.moniepoint:hover{ border-color:#4C7CF3; }
-  .pay-btn .logo-badge{
-    width:34px; height:34px;
-    border-radius:8px;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:800;
-    font-size:13px;
-    color:#fff;
-  }
-  .opay .logo-badge{ background:var(--opay-green); }
-  .moniepoint .logo-badge{ background:var(--moniepoint-navy); }
-  .pay-btn span.name{
-    font-size:13px;
-    font-weight:700;
-    color:var(--white);
-  }
-  .pay-btn span.hint{
-    font-size:10.5px;
-    color:var(--muted);
-  }
+    .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 
-  .txref{ margin-top:16px; }
+    /* Payment section */
+    .pay-section{
+      margin-top:24px;
+      border-top:1px dashed var(--border);
+      padding-top:22px;
+    }
+    .pay-label{
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.6px;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:12px;
+    }
+    .pay-options{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .pay-btn{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:16px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--navy);
+      cursor:pointer;
+      transition:border-color .15s ease, transform .1s ease;
+      font-family:inherit;
+    }
+    .pay-btn:hover{ transform:translateY(-1px); }
+    .pay-btn.primary:hover{ border-color:var(--orange); }
+    .pay-btn.secondary:hover{ border-color:var(--muted); }
+    .pay-btn.active{ border-color:var(--orange); box-shadow:0 0 0 2px rgba(232,89,12,0.2); }
+    .pay-btn .logo-badge{
+      width:34px; height:34px;
+      border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800;
+      font-size:13px;
+      color:#fff;
+    }
+    .primary .logo-badge{ background:linear-gradient(135deg, var(--red), var(--wine)); }
+    .secondary .logo-badge{ background:var(--moniepoint-navy); }
+    .pay-btn span.name{ font-size:13px; font-weight:700; color:var(--white); }
+    .pay-btn span.hint{ font-size:10.5px; color:var(--muted); }
 
-  .fee-note{
-    margin-top:14px;
-    font-size:12px;
-    color:var(--muted);
-    text-align:center;
-    line-height:1.5;
-  }
-  .fee-note b{ color:var(--gold); }
+    .bank-details{
+      display:none;
+      margin-top:16px;
+      background:var(--navy);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:16px;
+    }
+    .bank-details.open{ display:block; }
+    .bank-row{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding:8px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .bank-row:last-of-type{ border-bottom:none; }
+    .bank-row .label{ font-size:11px; color:var(--muted); text-transform:none; letter-spacing:0; margin:0; }
+    .bank-row .value{ font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.4px; }
+    .copy-btn{
+      background:rgba(232,89,12,0.12);
+      border:1px solid var(--orange);
+      color:var(--orange);
+      font-size:11px;
+      font-weight:700;
+      padding:6px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      flex:none;
+      font-family:inherit;
+    }
+    .copy-btn.copied{
+      background:rgba(0,166,81,0.14);
+      border-color:var(--opay-green);
+      color:var(--opay-green);
+    }
+    .bank-group{ margin-bottom:6px; }
+    .bank-group-label{ font-size:11px; font-weight:700; color:var(--gold); letter-spacing:0.4px; margin:14px 0 4px; }
+    .bank-group:first-child .bank-group-label{ margin-top:0; }
 
-  /* Bank transfer fallback */
-  .divider{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:18px 0;
-    color:var(--muted);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.6px;
-  }
-  .divider::before, .divider::after{
-    content:"";
-    flex:1;
-    height:1px;
-    background:var(--border);
-  }
+    .txref{ margin-top:14px; }
 
-  .bank-toggle{
-    width:100%;
-    background:transparent;
-    border:1px dashed var(--border);
-    border-radius:8px;
-    padding:10px;
-    color:var(--muted);
-    font-size:12.5px;
-    cursor:pointer;
-    text-align:center;
-  }
-  .bank-toggle:hover{ border-color:var(--gold); color:var(--gold); }
+    .fee-note{
+      margin-top:14px;
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.5;
+    }
+    .fee-note b{ color:var(--gold); }
 
-  .bank-details{
-    display:none;
-    margin-top:12px;
-    background:#0F0F0F;
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:16px;
-  }
-  .bank-details.open{ display:block; }
-  .bank-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    padding:8px 0;
-    border-bottom:1px solid var(--border);
-  }
-  .bank-row:last-of-type{ border-bottom:none; }
-  .bank-row .label{
-    font-size:11px;
-    color:var(--muted);
-    text-transform:none;
-    letter-spacing:0;
-    margin:0;
-  }
-  .bank-row .value{
-    font-size:14px;
-    font-weight:700;
-    color:var(--white);
-    letter-spacing:0.5px;
-  }
-  .copy-btn{
-    background:rgba(232,89,12,0.12);
-    border:1px solid var(--orange);
-    color:var(--orange);
-    font-size:11px;
-    font-weight:700;
-    padding:6px 10px;
-    border-radius:6px;
-    cursor:pointer;
-    flex:none;
-  }
-  .copy-btn.copied{
-    background:rgba(0,166,81,0.14);
-    border-color:var(--opay-green);
-    color:var(--opay-green);
-  }
+    .terms{
+      margin-top:20px;
+      border:1px solid var(--orange);
+      border-radius:10px;
+      padding:16px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      background:rgba(232,89,12,0.06);
+    }
+    .terms input[type="checkbox"]{
+      width:18px; height:18px; margin-top:2px; accent-color:var(--orange); flex:none;
+    }
+    .terms p{ margin:0; font-size:13px; line-height:1.5; color:var(--white); }
+    .terms a{ color:var(--gold); text-decoration:underline; }
 
-  button.submit{
-    width:100%;
-    margin-top:20px;
-    padding:15px;
-    border:none;
-    border-radius:8px;
-    background:var(--orange);
-    color:#fff;
-    font-size:16px;
-    font-weight:700;
-    letter-spacing:0.3px;
-    cursor:pointer;
-  }
-  button.submit:disabled{
-    opacity:0.6;
-    cursor:not-allowed;
-  }
+    button[type="submit"]{
+      width:100%;
+      margin-top:20px;
+      padding:15px;
+      border:none;
+      border-radius:8px;
+      background:linear-gradient(135deg, var(--red), var(--wine));
+      color:#fff;
+      font-size:16px;
+      font-weight:700;
+      letter-spacing:0.3px;
+      cursor:pointer;
+      font-family:inherit;
+    }
+    button[type="submit"]:hover{ background:linear-gradient(135deg, var(--orange), var(--red)); }
+    button:disabled{ opacity:0.6; cursor:not-allowed; }
 
-  .status-msg{
-    margin-top:14px;
-    text-align:center;
-    font-size:13px;
-    display:none;
-  }
-  .status-msg.show{ display:block; }
-  .status-msg.success{ color:var(--opay-green); }
-  .status-msg.error{ color:#E8590C; }
+    .status{
+      text-align:center;
+      margin-top:14px;
+      font-size:13px;
+      display:none;
+    }
+    .status.show{ display:block; }
+    .status.success{ color:var(--opay-green); }
+    .status.error{ color:var(--orange); }
 
-  .foot{
-    text-align:center;
-    color:var(--muted);
-    font-size:12px;
-    margin-top:18px;
-  }
-</style>
+    .foot{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:20px;
+    }
+
+    @media (max-width:420px){
+      .row2, .pay-options{ grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
 <div class="wrap">
 
-  <div class="mark">
-    <svg viewBox="0 0 100 100" fill="none">
-      <circle cx="42" cy="42" r="28" stroke="#E8590C" stroke-width="8"/>
-      <circle cx="42" cy="42" r="7" fill="#E8590C"/>
-      <line x1="62" y1="62" x2="85" y2="85" stroke="#E8590C" stroke-width="9" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="index.html" class="nav-back">← Back to Home</a>
 
-  <h1>THE LAST HAUNTER <span>9JA</span></h1>
+  <div class="mark">👻</div>
+  <h1>THE LAST <span>HAUNTER</span> 9JA</h1>
   <p class="sub">Hunter Registration</p>
+  <div class="fee-badge"><span class="amt">₦2,000</span><span class="label">entry fee</span></div>
 
   <div class="card">
+    <form id="registerForm">
 
-    <div class="row2">
-      <div class="field">
-        <label for="fname">First Name</label>
-        <input id="fname" type="text" placeholder="Chidinma" />
-      </div>
-      <div class="field">
-        <label for="lname">Last Name</label>
-        <input id="lname" type="text" placeholder="Okafor" />
-      </div>
-    </div>
-
-    <div class="row2">
-      <div class="field">
-        <label for="age">Age</label>
-        <input id="age" type="number" min="18" max="99" placeholder="24" />
-      </div>
-      <div class="field">
-        <label for="state">State</label>
-        <select id="state">
-          <option value="">Select state</option>
-          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option>
-          <option>Anambra</option><option>Bauchi</option><option>Bayelsa</option>
-          <option>Benue</option><option>Borno</option><option>Cross River</option>
-          <option>Delta</option><option>Ebonyi</option><option>Edo</option>
-          <option>Ekiti</option><option>Enugu</option><option>FCT — Abuja</option>
-          <option>Gombe</option><option>Imo</option><option>Jigawa</option>
-          <option>Kaduna</option><option>Kano</option><option>Katsina</option>
-          <option>Kebbi</option><option>Kogi</option><option>Kwara</option>
-          <option>Lagos</option><option>Nasarawa</option><option>Niger</option>
-          <option>Ogun</option><option>Ondo</option><option>Osun</option>
-          <option>Oyo</option><option>Plateau</option><option>Rivers</option>
-          <option>Sokoto</option><option>Taraba</option><option>Yobe</option>
-          <option>Zamfara</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="email">Email Address</label>
-      <input id="email" type="email" placeholder="chidinma@email.com" />
-    </div>
-
-    <div class="field">
-      <label for="whatsapp">WhatsApp Number</label>
-      <input id="whatsapp" type="tel" placeholder="+234 801 234 5678" />
-    </div>
-
-    <div class="pay-section">
-      <div class="pay-label">Pay Entry Fee — ₦2,000</div>
-      <div class="pay-options">
-        <a class="pay-btn opay" href="#" target="_blank" rel="noopener">
-          <span class="logo-badge">O</span>
-          <span class="name">Pay with OPay</span>
-          <span class="hint">Opens OPay link</span>
-        </a>
-        <a class="pay-btn moniepoint" href="#" target="_blank" rel="noopener">
-          <span class="logo-badge">M</span>
-          <span class="name">Pay with Moniepoint</span>
-          <span class="hint">Opens Moniepoint link</span>
-        </a>
-      </div>
-
-      <div class="divider">or</div>
-
-      <button type="button" class="bank-toggle" id="bankToggle">Prefer manual bank transfer? Tap for account details</button>
-
-      <div class="bank-details" id="bankDetails">
-        <div class="bank-row">
-          <div>
-            <p class="label">Bank Name</p>
-            <p class="value">OPay (Paycom)</p>
-          </div>
+      <div class="row2">
+        <div class="field">
+          <label for="fname">First Name</label>
+          <input id="fname" placeholder="Chidinma" required />
         </div>
-        <div class="bank-row">
-          <div>
-            <p class="label">Account Number</p>
-            <p class="value" id="acctNumber">8012345678</p>
-          </div>
-          <button type="button" class="copy-btn" id="copyAcct">Copy</button>
-        </div>
-        <div class="bank-row">
-          <div>
-            <p class="label">Account Name</p>
-            <p class="value">The Last Haunter 9ja</p>
-          </div>
+        <div class="field">
+          <label for="lname">Last Name</label>
+          <input id="lname" placeholder="Okafor" required />
         </div>
       </div>
 
-      <div class="field txref">
-        <label for="txref">Transaction Reference / Sender Name</label>
-        <input id="txref" type="text" placeholder="e.g. OPay ref no. or account name used" />
+      <div class="row2">
+        <div class="field">
+          <label for="age">Age</label>
+          <input id="age" type="number" min="18" max="99" placeholder="24" required />
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <select id="state" required>
+            <option value="">Select state</option>
+            <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option>
+            <option>Anambra</option><option>Bauchi</option><option>Bayelsa</option>
+            <option>Benue</option><option>Borno</option><option>Cross River</option>
+            <option>Delta</option><option>Ebonyi</option><option>Edo</option>
+            <option>Ekiti</option><option>Enugu</option><option>FCT — Abuja</option>
+            <option>Gombe</option><option>Imo</option><option>Jigawa</option>
+            <option>Kaduna</option><option>Kano</option><option>Katsina</option>
+            <option>Kebbi</option><option>Kogi</option><option>Kwara</option>
+            <option>Lagos</option><option>Nasarawa</option><option>Niger</option>
+            <option>Ogun</option><option>Ondo</option><option>Osun</option>
+            <option>Oyo</option><option>Plateau</option><option>Rivers</option>
+            <option>Sokoto</option><option>Taraba</option><option>Yobe</option>
+            <option>Zamfara</option>
+          </select>
+        </div>
       </div>
 
-      <p class="fee-note">After payment, paste your <b>transaction reference</b> or the <b>name used to pay</b> above so we can confirm your slot. Confirmation is sent via WhatsApp within 24 hours.</p>
-    </div>
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" placeholder="chidinma@email.com" required />
+      </div>
 
-    <div class="terms">
-      <input type="checkbox" id="terms" />
-      <p>I confirm the details above are correct and I agree to the
-        <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and
-        <a href="terms.html#privacy" target="_blank" rel="noopener">Privacy Policy</a>, including the non-refundable entry fee.</p>
-    </div>
+      <div class="field">
+        <label for="phone">WhatsApp Number</label>
+        <input id="phone" placeholder="+234 801 234 5678" required />
+      </div>
 
-    <button type="button" class="submit" id="submitBtn">Submit Registration</button>
-    <p class="status-msg" id="statusMsg"></p>
+      <div class="pay-section">
+        <div class="pay-label">Pay Entry Fee — ₦2,000</div>
+        <div class="pay-options">
+          <button type="button" class="pay-btn primary active" id="payCardBtn">
+            <span class="logo-badge">₦</span>
+            <span class="name">Card / OPay / Transfer</span>
+            <span class="hint">Instant, via Paystack</span>
+          </button>
+          <button type="button" class="pay-btn secondary" id="payManualBtn">
+            <span class="logo-badge">M</span>
+            <span class="name">Manual Transfer</span>
+            <span class="hint">OPay or Moniepoint</span>
+          </button>
+        </div>
+
+        <div class="bank-details" id="bankDetails">
+          <div class="bank-group">
+            <div class="bank-group-label">OPay</div>
+            <div class="bank-row">
+              <div><p class="label">Account Number</p><p class="value" id="acctNumberOpay">8012345678</p></div>
+              <button type="button" class="copy-btn" data-target="acctNumberOpay">Copy</button>
+            </div>
+            <div class="bank-row">
+              <div><p class="label">Account Name</p><p class="value">THE LAST HAUNTER 9JA</p></div>
+            </div>
+          </div>
+          <div class="bank-group">
+            <div class="bank-group-label">Moniepoint</div>
+            <div class="bank-row">
+              <div><p class="label">Account Number</p><p class="value" id="acctNumberMoniepoint">9034567812</p></div>
+              <button type="button" class="copy-btn" data-target="acctNumberMoniepoint">Copy</button>
+            </div>
+            <div class="bank-row">
+              <div><p class="label">Account Name</p><p class="value">THE LAST HAUNTER 9JA</p></div>
+            </div>
+          </div>
+
+          <div class="field txref">
+            <label for="txref">Transaction Reference</label>
+            <input id="txref" placeholder="Paste reference after paying" />
+          </div>
+        </div>
+
+        <p class="fee-note" id="feeNote">Choose <b>Card / OPay / Transfer</b> for instant confirmation, or a <b>manual transfer</b> to OPay/Moniepoint above — paste your reference and we'll confirm via WhatsApp within 24 hours.</p>
+      </div>
+
+      <div class="terms">
+        <input type="checkbox" id="terms" required />
+        <p>I confirm the details above are correct and I agree to the
+          <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and
+          <a href="terms.html#privacy" target="_blank" rel="noopener">Privacy Policy</a>, including the non-refundable entry fee.</p>
+      </div>
+
+      <button type="submit" id="submitBtn">Pay ₦2,000 &amp; Enter Hunt</button>
+    </form>
+    <p class="status" id="statusMsg"></p>
   </div>
 
-  <p class="foot">Entry Fee: ₦2,000 · Pay via OPay or Moniepoint</p>
+  <p class="foot">Secured registration · Confirmation via WhatsApp</p>
 
 </div>
 
-<script>
-  // ---- Bank details toggle ----
-  const bankToggle = document.getElementById('bankToggle');
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  // ================= CONFIG - REPLACE THESE =================
+  const SUPABASE_URL = 'https://imczxdzkwmkfcwqjwvde.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltY3p4ZHprd21rZmN3cWp3dmRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3OTgzMTYsImV4cCI6MjEwMDM3NDMxNn0.xMzDwpRViI_lQdLbEKdY6xWvIjcoWGtXayIa0jUJZDg';
+  const PAYSTACK_PUBLIC_KEY = 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182';
+  const HUNT_ID = 'e0753eb8-4fa1-4cf3-b612-46891dfd501a';
+  const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx1VdK6F8j1P3izTsFoqq9r8wgRHUDEJjIidIGwUD3pJ1zqu696h8hU0vzuT8lbXkph7w/exec";
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let submitting = false;
+  let payMethod = 'card'; // 'card' | 'manual'
+
+  // ---- Payment method toggle (visual selection between the two options) ----
+  const payCardBtn = document.getElementById('payCardBtn');
+  const payManualBtn = document.getElementById('payManualBtn');
   const bankDetails = document.getElementById('bankDetails');
-  bankToggle.addEventListener('click', () => {
-    bankDetails.classList.toggle('open');
-    bankToggle.textContent = bankDetails.classList.contains('open')
-      ? 'Hide account details'
-      : 'Prefer manual bank transfer? Tap for account details';
-  });
-
-  // ---- Copy account number ----
-  const copyBtn = document.getElementById('copyAcct');
-  const acctNumber = document.getElementById('acctNumber');
-  copyBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(acctNumber.textContent.trim());
-      copyBtn.textContent = 'Copied';
-      copyBtn.classList.add('copied');
-      setTimeout(() => {
-        copyBtn.textContent = 'Copy';
-        copyBtn.classList.remove('copied');
-      }, 1800);
-    } catch (err) {
-      copyBtn.textContent = 'Failed';
-    }
-  });
-
-  // ---- Submit to Google Sheet via Apps Script Web App ----
-  // 1. Create a Google Sheet with header row: Timestamp, First Name, Last Name, Age, State, Email, WhatsApp, Transaction Ref
-  // 2. Extensions > Apps Script, paste a doPost(e) function that appends e.parameter values as a row
-  // 3. Deploy > New deployment > Web app > Execute as: Me > Who has access: Anyone > copy the deployment URL below
-  const SHEET_WEBHOOK_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
-
   const submitBtn = document.getElementById('submitBtn');
-  const statusMsg = document.getElementById('statusMsg');
 
-  function showStatus(text, type) {
-    statusMsg.textContent = text;
-    statusMsg.className = 'status-msg show ' + type;
+  function selectPayMethod(method){
+    payMethod = method;
+    payCardBtn.classList.toggle('active', method === 'card');
+    payManualBtn.classList.toggle('active', method === 'manual');
+    bankDetails.classList.toggle('open', method === 'manual');
+    submitBtn.textContent = method === 'card' ? 'Pay ₦2,000 & Enter Hunt' : 'Submit Registration';
+  }
+  payCardBtn.addEventListener('click', () => selectPayMethod('card'));
+  payManualBtn.addEventListener('click', () => selectPayMethod('manual'));
+
+  // ---- Copy account number buttons (works for both OPay and Moniepoint rows) ----
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const targetEl = document.getElementById(btn.dataset.target);
+      await navigator.clipboard.writeText(targetEl.innerText.trim());
+      const original = btn.innerText;
+      btn.innerText = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.innerText = original; btn.classList.remove('copied'); }, 1500);
+    });
+  });
+
+  function showStatus(text, type){
+    const el = document.getElementById('statusMsg');
+    el.textContent = text;
+    el.className = 'status show ' + type;
   }
 
-  submitBtn.addEventListener('click', async () => {
-    const fname = document.getElementById('fname').value.trim();
-    const lname = document.getElementById('lname').value.trim();
-    const age = document.getElementById('age').value.trim();
-    const state = document.getElementById('state').value;
-    const email = document.getElementById('email').value.trim();
-    const whatsapp = document.getElementById('whatsapp').value.trim();
-    const txref = document.getElementById('txref').value.trim();
-    const terms = document.getElementById('terms').checked;
+  async function handleRegister(e) {
+    e.preventDefault();
+    if (submitting) return;
 
-    if (!fname || !lname || !age || !state || !email || !whatsapp) {
-      showStatus('Please fill in all required fields.', 'error');
-      return;
-    }
-    if (!terms) {
+    // Required T&C checkbox
+    if (!document.getElementById('terms').checked) {
       showStatus('Please agree to the Terms & Conditions to continue.', 'error');
       return;
     }
-    if (!txref) {
-      showStatus('Please add your transaction reference or sender name after paying.', 'error');
-      return;
-    }
-    if (SHEET_WEBHOOK_URL.startsWith('PASTE_')) {
-      showStatus('Form is not yet connected to Google Sheets — add the Apps Script URL in the code.', 'error');
-      return;
-    }
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-
-    const payload = new URLSearchParams({
-      timestamp: new Date().toISOString(),
-      firstName: fname,
-      lastName: lname,
-      age: age,
-      state: state,
-      email: email,
-      whatsapp: whatsapp,
-      transactionRef: txref
-    });
+    submitting = true;
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Please wait...';
 
     try {
-      await fetch(SHEET_WEBHOOK_URL, {
-        method: 'POST',
-        mode: 'no-cors', // Apps Script web apps don't return CORS headers
-        body: payload
-      });
-      showStatus('Registration submitted! Confirmation coming via WhatsApp within 24 hours.', 'success');
-      submitBtn.textContent = 'Submitted';
-    } catch (err) {
-      showStatus('Something went wrong. Please try again or contact us directly.', 'error');
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Registration';
-    }
-  });
-</script>
+      const fname = document.getElementById('fname').value.trim();
+      const lname = document.getElementById('lname').value.trim();
+      const name = (fname + ' ' + lname).trim();
+      const age = document.getElementById('age').value.trim();
+      const state = document.getElementById('state').value;
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const phone = document.getElementById('phone').value.trim();
+      const txref = document.getElementById('txref').value.trim();
+      const isBankTransfer = payMethod === 'manual';
+      const hunter_id = crypto.randomUUID();
 
+      // 1. Verify hunt
+      const { data: hunt } = await sb.from('hunts').select('entry_fee, status').eq('id', HUNT_ID).single();
+      if (!hunt || (hunt.status!== 'scheduled' && hunt.status!== 'active')) {
+        showStatus('Registration is not currently open for THE LAST HAUNTER 9JA.', 'error'); return;
+      }
+      if (hunt.entry_fee!== 200000) { // FIXED: 2000 Naira = 200000 Kobo
+        showStatus('Invalid entry fee detected. Contact admin.', 'error'); return;
+      }
+
+      // 2. Create hunter record (city column carries the selected state)
+      const { data: hunterData, error: hunterError } = await sb.from('hunters').insert([{
+        id: hunter_id, hunt_id: HUNT_ID, name, email, phone, city: state
+      }]).select('hunter_code').single();
+      if (hunterError) { showStatus('Registration error: ' + hunterError.message, 'error'); return; }
+
+      // 3. SAVE TO GOOGLE SHEETS
+      const payload = new URLSearchParams({
+        timestamp: new Date().toISOString(),
+        firstName: fname,
+        lastName: lname,
+        age: age, state: state, email: email, whatsapp: phone,
+        transactionRef: isBankTransfer? txref : 'Paystack: '+Date.now()
+      });
+      fetch(SHEET_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: payload });
+
+      // 4. IF MANUAL TRANSFER (OPay / Moniepoint)
+      if(isBankTransfer){
+        if(!txref){ showStatus('Please paste your transaction reference.', 'error'); return; }
+        await sb.from('payments').insert([{ hunter_id, amount: hunt.entry_fee, paystack_ref: txref, status: 'pending' }]);
+        showStatus('Registration submitted! We will confirm your payment within 24hrs via WhatsApp.', 'success');
+        btn.textContent = 'Submitted'; return;
+      }
+
+      // 5. ELSE: OPEN PAYSTACK (card / OPay wallet / bank transfer via Paystack checkout)
+      const reference = 'TLH9JA_' + Date.now();
+      await sb.from('payments').insert([{ hunter_id, amount: hunt.entry_fee, paystack_ref: reference, status: 'pending' }]);
+      const handler = PaystackPop.setup({
+        key: PAYSTACK_PUBLIC_KEY, email: email, amount: hunt.entry_fee, currency: 'NGN', ref: reference,
+        metadata: { hunter_id, hunter_code: hunterData.hunter_code, hunt_id: HUNT_ID, hunt_name: "THE LAST HAUNTER 9JA" },
+        callback: function(response) {
+          window.location.href = `./thank-you.html?ref=${encodeURIComponent(response.reference)}&code=${encodeURIComponent(hunterData.hunter_code)}`;
+        },
+        onClose: function() { showStatus('Payment window closed. You can resume payment any time.', 'error'); }
+      });
+      handler.openIframe();
+
+    } catch (err) {
+      showStatus('Something went wrong: ' + err.message, 'error');
+    } finally {
+      submitting = false; btn.disabled = false;
+      btn.textContent = payMethod === 'card' ? 'Pay ₦2,000 & Enter Hunt' : 'Submit Registration';
+    }
+  }
+  document.getElementById('registerForm').addEventListener('submit', handleRegister);
+  </script>
 </body>
 </html>
