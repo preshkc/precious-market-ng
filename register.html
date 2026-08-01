@@ -471,10 +471,10 @@
         showStatus('Invalid entry fee detected. Contact admin.', 'error'); return;
       }
 
-      // 2. Create hunter record (city column carries the selected state)
-      const { data: hunterData, error: hunterError } = await sb.from('hunters').insert([{
-        id: hunter_id, hunt_id: HUNT_ID, name, email, phone, city: state
-      }]).select('hunter_code').single();
+      // 2. Create hunter record via RPC (bypasses the need for a public SELECT policy)
+      const { data: hunterCode, error: hunterError } = await sb.rpc('register_hunter', {
+        p_id: hunter_id, p_hunt_id: HUNT_ID, p_name: name, p_email: email, p_phone: phone, p_city: state
+      });
       if (hunterError) { showStatus('Registration error: ' + hunterError.message, 'error'); return; }
 
       // 3. SAVE TO GOOGLE SHEETS
@@ -500,9 +500,9 @@
       await sb.from('payments').insert([{ hunter_id, amount: hunt.entry_fee, paystack_ref: reference, status: 'pending' }]);
       const handler = PaystackPop.setup({
         key: PAYSTACK_PUBLIC_KEY, email: email, amount: hunt.entry_fee, currency: 'NGN', ref: reference,
-        metadata: { hunter_id, hunter_code: hunterData.hunter_code, hunt_id: HUNT_ID, hunt_name: "THE LAST HAUNTER 9JA" },
+        metadata: { hunter_id, hunter_code: hunterCode, hunt_id: HUNT_ID, hunt_name: "THE LAST HAUNTER 9JA" },
         callback: function(response) {
-          window.location.href = `./thank-you.html?ref=${encodeURIComponent(response.reference)}&code=${encodeURIComponent(hunterData.hunter_code)}`;
+          window.location.href = `./thank-you.html?ref=${encodeURIComponent(response.reference)}&code=${encodeURIComponent(hunterCode)}`;
         },
         onClose: function() { showStatus('Payment window closed. You can resume payment any time.', 'error'); }
       });
