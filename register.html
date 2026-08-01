@@ -7,16 +7,16 @@
   <style>
     body { font-family: system-ui, sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; background:#0A0A0A; color:#F5F5F5; }
     h2 { color:#F5A623; }
-    input, button, select { width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border-radius:8px; border:1px solid #262626; background:#151515; color:#F5F5; }
+    input, button { width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border-radius:8px; border:1px solid #262626; background:#151515; color:#F5F5F5; }
     button { background: #E8590C; color: #fff; border: none; cursor: pointer; font-weight: bold; }
     button:disabled { opacity: 0.6; cursor: not-allowed; }
-  .bank-details{ display:none; margin-top:10px; padding:12px; border:1px dashed #E8590C; border-radius:8px; background:#151515; }
-  .bank-details.open{ display:block; }
-  .copy-btn{ background:#E8590C; color:#fff; padding:6px 10px; border:none; border-radius:6px; cursor:pointer; width:auto; }
-  .status{ text-align:center; margin-top:10px; font-size:13px; display:none; }
-  .status.show{ display:block; }
-  .status.success{ color:#00A651; }
-  .status.error{ color:#E8590C; }
+   .bank-details{ display:none; margin-top:10px; padding:12px; border:1px dashed #E8590C; border-radius:8px; background:#151515; }
+   .bank-details.open{ display:block; }
+   .copy-btn{ background:#E8590C; color:#fff; padding:6px 10px; border:none; border-radius:6px; cursor:pointer; width:auto; }
+   .status{ text-align:center; margin-top:10px; font-size:13px; display:none; }
+   .status.show{ display:block; }
+   .status.success{ color:#00A651; }
+   .status.error{ color:#E8590C; }
   </style>
 </head>
 <body>
@@ -29,7 +29,6 @@
     <input id="phone" placeholder="WhatsApp Number" required />
     <input id="city" placeholder="City" required />
 
-    <!-- BANK TRANSFER FALLBACK -->
     <button type="button" id="bankToggle" style="background:transparent; border:1px dashed #8A9BB5; color:#8A9BB5;">Prefer Bank Transfer? Click here</button>
     <div class="bank-details" id="bankDetails">
       <p><b>Bank:</b> OPay</p>
@@ -49,13 +48,12 @@
   const SUPABASE_URL = 'https://imczxdzkwmkfcwqjwvde.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltY3p4ZHprd21rZmN3cWp3dmRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3OTgzMTYsImV4cCI6MjEwMDM3NDMxNn0.xMzDwpRViI_lQdLbEKdY6xWvIjcoWGtXayIa0jUJZDg';
   const PAYSTACK_PUBLIC_KEY = 'pk_test_928893eb58b1c97cc65956d2e0456b9eebb24182';
-  const HUNT_ID = 'e0753eb8-4fa1-4cf3-b612-46891dfd501a'; // <-- THIS IS STILL YOUR HUNT ID IN SUPABASE
-  const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbygvnxe7x_JRAdstJvhLFKqz61ODd9D-Hf3568WJHIG8Ep82NXMFStlxRpk65PtwauV/exec";
+  const HUNT_ID = 'e0753eb8-4fa1-4cf3-b612-46891dfd501a';
+  const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx1VdK6F8j1P3izTsFoqq9r8wgRHUDEJjIidIGwUD3pJ1zqu696h8hU0vzuT8lbXkph7w/exec";
 
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   let submitting = false;
 
-  // Bank toggle + copy
   document.getElementById('bankToggle').onclick = () => {
     document.getElementById('bankDetails').classList.toggle('open');
   }
@@ -75,10 +73,8 @@
     e.preventDefault();
     if (submitting) return;
     submitting = true;
-
     const btn = e.target.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.textContent = 'Please wait...';
+    btn.disabled = true; btn.textContent = 'Please wait...';
 
     try {
       const name = document.getElementById('name').value.trim();
@@ -87,81 +83,60 @@
       const city = document.getElementById('city').value.trim();
       const txref = document.getElementById('txref').value.trim();
       const isBankTransfer = document.getElementById('bankDetails').classList.contains('open');
-
       const hunter_id = crypto.randomUUID();
 
       // 1. Verify hunt
       const { data: hunt } = await sb.from('hunts').select('entry_fee, status').eq('id', HUNT_ID).single();
-      if (!hunt || hunt.status!== 'scheduled' && hunt.status!== 'active') {
-        alert('Registration is not currently open for THE LAST HAUNTER 9JA.');
-        return;
+      if (!hunt || (hunt.status!== 'scheduled' && hunt.status!== 'active')) {
+        alert('Registration is not currently open for THE LAST HAUNTER 9JA.'); return;
       }
-      if (hunt.entry_fee!== 200000) {
-        alert('Invalid entry fee detected');
-        return;
+      if (hunt.entry_fee!== 200000) { // FIXED: 2000 Naira = 200000 Kobo
+        alert('Invalid entry fee detected. Contact admin.'); return;
       }
 
       // 2. Create hunter record
       const { data: hunterData, error: hunterError } = await sb.from('hunters').insert([{
         id: hunter_id, hunt_id: HUNT_ID, name, email, phone, city
       }]).select('hunter_code').single();
+      if (hunterError) { alert('Registration error: ' + hunterError.message); return; }
 
-      if (hunterError) {
-        alert('Registration error: ' + hunterError.message);
-        return;
-      }
-
-      // 3. SAVE TO GOOGLE SHEETS FIRST
+      // 3. SAVE TO GOOGLE SHEETS
       const payload = new URLSearchParams({
         timestamp: new Date().toISOString(),
         firstName: name.split(' ')[0],
         lastName: name.split(' ').slice(1).join(' '),
-        age: '',
-        state: city,
-        email: email,
-        whatsapp: phone,
+        age: '', state: city, email: email, whatsapp: phone,
         transactionRef: isBankTransfer? txref : 'Paystack: '+Date.now()
       });
       fetch(SHEET_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: payload });
 
-      // 4. IF BANK TRANSFER: Skip Paystack
+      // 4. IF BANK TRANSFER
       if(isBankTransfer){
         if(!txref){ alert('Please paste your transaction reference'); return; }
         await sb.from('payments').insert([{ hunter_id, amount: hunt.entry_fee, paystack_ref: txref, status: 'pending' }]);
         showStatus('Registration submitted! We will confirm your payment within 24hrs via WhatsApp.', 'success');
-        btn.textContent = 'Submitted';
-        return;
+        btn.textContent = 'Submitted'; return;
       }
 
       // 5. ELSE: OPEN PAYSTACK
       const reference = 'TLH9JA_' + Date.now();
       await sb.from('payments').insert([{ hunter_id, amount: hunt.entry_fee, paystack_ref: reference, status: 'pending' }]);
-      
       const handler = PaystackPop.setup({
-        key: PAYSTACK_PUBLIC_KEY,
-        email: email,
-        amount: hunt.entry_fee,
-        currency: 'NGN',
-        ref: reference,
+        key: PAYSTACK_PUBLIC_KEY, email: email, amount: hunt.entry_fee, currency: 'NGN', ref: reference,
         metadata: { hunter_id, hunter_code: hunterData.hunter_code, hunt_id: HUNT_ID, hunt_name: "THE LAST HAUNTER 9JA" },
         callback: function(response) {
           window.location.href = `./thank-you.html?ref=${encodeURIComponent(response.reference)}&code=${encodeURIComponent(hunterData.hunter_code)}`;
         },
-        onClose: function() {
-          alert('Payment window closed. You can resume payment any time.');
-        }
+        onClose: function() { alert('Payment window closed. You can resume payment any time.'); }
       });
       handler.openIframe();
 
     } catch (err) {
       showStatus('Something went wrong: ' + err.message, 'error');
     } finally {
-      submitting = false;
-      btn.disabled = false;
-      btn.textContent = 'Pay with Card / OPay / Submit';
+      submitting = false; btn.disabled = false; btn.textContent = 'Pay with Card / OPay / Submit';
     }
   }
-
   document.getElementById('registerForm').addEventListener('submit', handleRegister);
   </script>
 </body>
