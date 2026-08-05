@@ -275,6 +275,12 @@
       <input id="whatsapp" type="tel" placeholder="+234 801 234 5678" />
     </div>
 
+    <!-- Honeypot field: hidden from real visitors, bots often fill every input -->
+    <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+      <label for="website">Website</label>
+      <input id="website" type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
     <button type="button" class="terms-toggle" id="termsToggle">Read full Terms &amp; Conditions</button>
 
     <div class="terms-text" id="termsText">
@@ -349,6 +355,15 @@
     const email = document.getElementById('email').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
     const terms = document.getElementById('terms').checked;
+    const honeypot = document.getElementById('website').value.trim();
+
+    // Bots tend to fill every field, including hidden ones — silently pretend success
+    if (honeypot) {
+      showStatus('Registration submitted! Welcome to #thelasthaunter9ja Episode 1.', 'success');
+      submitBtn.textContent = 'Submitted';
+      submitBtn.disabled = true;
+      return;
+    }
 
     if (!fname || !lname || !age || !state || !email || !whatsapp) {
       showStatus('Please fill in all required fields.', 'error');
@@ -373,7 +388,8 @@
       age: age,
       state: state,
       email: email,
-      whatsapp: whatsapp
+      whatsapp: whatsapp,
+      website: '' // honeypot — always empty for real submissions
     });
 
     try {
