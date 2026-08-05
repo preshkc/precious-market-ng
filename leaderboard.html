@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>THE LAST HAUNTER 9JA — Leaderboard</title>
+<style>
+  :root{
+    --bg:#0A0A0A;
+    --card:#151515;
+    --border:#262626;
+    --orange:#E8590C;
+    --gold:#F5A623;
+    --white:#F5F5F5;
+    --muted:#8A9BB5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--white);
+    display:flex;
+    justify-content:center;
+    padding:48px 16px;
+  }
+  .wrap{ width:100%; max-width:520px; }
+
+  .mark{
+    width:64px; height:64px; border-radius:50%;
+    border:2px solid var(--orange);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px;
+    font-size:26px;
+  }
+  h1{
+    font-family:Georgia,"Times New Roman",serif;
+    text-align:center;
+    font-size:26px;
+    margin:0 0 4px;
+    letter-spacing:0.5px;
+  }
+  h1 span{ color:var(--orange); }
+  .sub{
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+    margin:0 0 8px;
+  }
+  .updated{
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:28px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+  }
+
+  .row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 20px;
+    border-bottom:1px solid var(--border);
+  }
+  .row:last-child{ border-bottom:none; }
+  .row.head{
+    background:#0F0F0F;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color:var(--gold);
+    padding:12px 20px;
+  }
+
+  .rank{
+    width:32px;
+    text-align:center;
+    font-family:Georgia, serif;
+    font-weight:700;
+    font-size:16px;
+    color:var(--muted);
+    flex:none;
+  }
+  .row:nth-child(2) .rank{ color:var(--gold); font-size:20px; }
+  .row:nth-child(3) .rank{ color:#c0c0c0; }
+  .row:nth-child(4) .rank{ color:#cd7f32; }
+
+  .name{
+    flex:1;
+    font-size:15px;
+    font-weight:600;
+    color:var(--white);
+  }
+  .points{
+    font-family:Georgia, serif;
+    font-weight:700;
+    font-size:16px;
+    color:var(--orange);
+    flex:none;
+  }
+
+  .state{
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+    padding:40px 20px;
+  }
+  .state.error{ color:var(--orange); }
+
+  .refresh-btn{
+    display:block;
+    margin:24px auto 0;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--muted);
+    font-size:13px;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .refresh-btn:hover{ border-color:var(--gold); color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mark">👻</div>
+  <h1>THE LAST HAUNTER <span>9JA</span></h1>
+  <p class="sub">Leaderboard</p>
+  <p class="updated" id="updatedAt"></p>
+
+  <div class="card" id="leaderboardCard">
+    <div class="state" id="loadingState">Loading leaderboard...</div>
+  </div>
+
+  <button class="refresh-btn" id="refreshBtn">Refresh</button>
+
+</div>
+
+<script>
+  // ================= CONFIG - REPLACE THESE =================
+  // 1. Create a "Leaderboard" sheet/tab with columns: Name, Points
+  //    (you update this manually after grading each day's answers)
+  // 2. File > Share > General access > "Anyone with the link" > Viewer
+  // 3. Paste the Sheet ID (the long string in the sheet's URL) below
+  const SHEET_ID = "PASTE_YOUR_SHEET_ID_HERE";
+  const SHEET_TAB_NAME = "Leaderboard"; // must match the tab name exactly
+
+  const cardEl = document.getElementById('leaderboardCard');
+  const updatedEl = document.getElementById('updatedAt');
+  const refreshBtn = document.getElementById('refreshBtn');
+
+  function parseCSV(text) {
+    return text.trim().split('\n').map(line => {
+      const cells = [];
+      let cur = '', inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQuotes = !inQuotes; }
+        else if (c === ',' && !inQuotes) { cells.push(cur); cur = ''; }
+        else { cur += c; }
+      }
+      cells.push(cur);
+      return cells.map(c => c.trim());
+    });
+  }
+
+  async function loadLeaderboard() {
+    cardEl.innerHTML = '<div class="state" id="loadingState">Loading leaderboard...</div>';
+
+    if (SHEET_ID.startsWith('PASTE_')) {
+      cardEl.innerHTML = '<div class="state error">Leaderboard not yet connected — add your Sheet ID in the code.</div>';
+      return;
+    }
+
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB_NAME)}`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Sheet not accessible');
+      const text = await res.text();
+      const rows = parseCSV(text).filter(r => r.length >= 2 && r[0]);
+
+      // First row is assumed to be headers (Name, Points)
+      const dataRows = rows.slice(1)
+        .filter(r => r[0] && r[1] !== undefined && r[1] !== '')
+        .map(r => ({ name: r[0], points: parseFloat(r[1]) || 0 }))
+        .sort((a, b) => b.points - a.points);
+
+      if (dataRows.length === 0) {
+        cardEl.innerHTML = '<div class="state">No scores yet. Check back after Day 1 grading.</div>';
+      } else {
+        let html = '<div class="row head"><span class="rank">#</span><span class="name">Hunter</span><span class="points">Pts</span></div>';
+        dataRows.forEach((row, i) => {
+          html += `<div class="row">
+            <span class="rank">${i + 1}</span>
+            <span class="name">${escapeHTML(row.name)}</span>
+            <span class="points">${row.points}</span>
+          </div>`;
+        });
+        cardEl.innerHTML = html;
+      }
+
+      updatedEl.textContent = 'Last updated: ' + new Date().toLocaleString();
+    } catch (err) {
+      cardEl.innerHTML = '<div class="state error">Could not load leaderboard. Make sure the sheet is shared as "Anyone with the link — Viewer."</div>';
+    }
+  }
+
+  function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  refreshBtn.addEventListener('click', loadLeaderboard);
+  loadLeaderboard();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>THE LAST HAUNTER 9JA — Clue Submission</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Crimson+Pro:ital,wght@1,400;1,600&display=swap');
+
+:root{
+  --bg:#0A0A0A;
+  --card:#151515;
+  --border:#262626;
+  --orange:#E8590C;
+  --gold:#F5A623;
+  --white:#F5F5F5;
+  --muted:#8A9BB5;
+}
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family:'Inter', -apple-system, sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-bottom:48px;
+}
+
+/* ================= BANNER (edit text via CLUE_CONFIG at bottom, not here) ================= */
+.banner{
+  width:100%;
+  max-width:480px;
+  min-height:420px;
+  position:relative;
+  background:#0d0d0d;
+  overflow:hidden;
+  padding:36px 28px 40px;
+  display:flex;
+  flex-direction:column;
+}
+/* leather-ish noise texture */
+.banner::before{
+  content:'';
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity:0.35;
+  pointer-events:none;
+}
+.banner::after{
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.05), transparent 60%);
+  pointer-events:none;
+}
+.banner-top{ position:relative; z-index:1; display:flex; justify-content:flex-end; }
+.brand-mark{
+  font-family:'Bebas Neue', sans-serif;
+  text-align:right;
+  font-size:18px;
+  line-height:1.05;
+  letter-spacing:1px;
+  color:var(--white);
+}
+.brand-mark span{ display:block; }
+.brand-mark .code{ color:var(--gold); font-size:14px; }
+
+.wave-glow{ position:relative; z-index:1; width:100%; height:70px; margin-top:8px; }
+
+.banner-body{ position:relative; z-index:1; margin-top:28px; flex:1; }
+.day-label{
+  text-align:center;
+  font-family:'Inter', sans-serif;
+  font-weight:600;
+  letter-spacing:1px;
+  font-size:19px;
+  color:#EDEDED;
+  margin:0 0 6px;
+}
+.clue-title{
+  text-align:center;
+  font-family:'Crimson Pro', Georgia, serif;
+  font-weight:700;
+  font-style:italic;
+  font-size:clamp(30px, 8vw, 40px);
+  color:var(--gold);
+  margin:0 0 26px;
+  line-height:1.1;
+}
+.clue-box{
+  border:1px dashed rgba(245,166,35,0.45);
+  border-radius:2px;
+  padding:20px 18px 20px 44px;
+  position:relative;
+  font-size:14.5px;
+  line-height:1.65;
+  color:#EDEDED;
+}
+.clue-box::before{
+  content:'🔍';
+  position:absolute;
+  left:14px; top:18px;
+  font-size:16px;
+  filter:grayscale(0.3);
+}
+.clue-box::after{
+  content:'';
+  position:absolute;
+  left:-1px; bottom:-1px;
+  width:22px; height:22px;
+  border-left:2px solid var(--gold);
+  border-bottom:2px solid var(--gold);
+}
+.deadline{
+  position:relative; z-index:1;
+  text-align:center;
+  margin-top:32px;
+  font-family:'Inter', sans-serif;
+  font-weight:600;
+  letter-spacing:0.6px;
+  font-size:15px;
+  color:#DADADA;
+}
+
+/* ================= FORM ================= */
+.wrap{ width:100%; max-width:480px; padding:0 16px; }
+
+h2.form-title{
+  text-align:center;
+  font-size:18px;
+  letter-spacing:0.4px;
+  margin:24px 0 4px;
+  color:var(--white);
+}
+.sub{
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  margin:0 0 24px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:26px;
+}
+
+.field{ margin-bottom:16px; }
+.field:last-of-type{ margin-bottom:0; }
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.6px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:7px;
+}
+input, textarea{
+  width:100%;
+  padding:12px 14px;
+  background:#0F0F0F;
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--white);
+  font-size:15px;
+  font-family:inherit;
+}
+textarea{ resize:vertical; min-height:90px; }
+input::placeholder, textarea::placeholder{ color:#555; }
+input:focus, textarea:focus{
+  outline:none;
+  border-color:var(--orange);
+  box-shadow:0 0 0 3px rgba(232,89,12,0.15);
+}
+
+.row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+button.submit{
+  width:100%;
+  margin-top:20px;
+  padding:15px;
+  border:none;
+  border-radius:8px;
+  background:var(--orange);
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:0.3px;
+  cursor:pointer;
+  font-family:inherit;
+}
+button.submit:disabled{ opacity:0.6; cursor:not-allowed; }
+
+.status-msg{
+  margin-top:14px;
+  text-align:center;
+  font-size:13px;
+  display:none;
+}
+.status-msg.show{ display:block; }
+.status-msg.success{ color:#00A651; }
+.status-msg.error{ color:#E8590C; }
+
+.foot{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:18px;
+}
+
+@media (max-width:420px){
+  .row2{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="banner-top">
+      <div class="brand-mark">
+        <span>THE</span><span>LAST</span><span>HAUNTER</span><span class="code">9JA</span>
+      </div>
+    </div>
+
+    <svg class="wave-glow" viewBox="0 0 480 70" preserveAspectRatio="none">
+      <defs>
+        <filter id="glow" x="-20%" y="-100%" width="140%" height="300%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <path d="M0,30 C 90,-10 160,65 240,35 C 320,5 390,55 480,15"
+            fill="none" stroke="#F5A623" stroke-width="3" filter="url(#glow)"/>
+    </svg>
+
+    <div class="banner-body">
+      <p class="day-label" id="dayLabel">DAY 1 — MONDAY:</p>
+      <h2 class="clue-title" id="clueTitle">The Sole of the City</h2>
+      <div class="clue-box">
+        <p id="clueText" style="margin:0;">We're not talking about fish. Head to the spot where thousands of soles have passed through for over a century, where leather meets craftsmanship on every shelf. Snap a photo of your team next to the oldest pair on display, and ask the shopkeeper what the strangest repair request they've ever gotten was.</p>
+      </div>
+    </div>
+
+    <p class="deadline" id="deadlineText">DEADLINE: JULY 28, 6:00 PM</p>
+  </div>
+
+  <div class="wrap">
+    <h2 class="form-title">Submit Your Answer</h2>
+    <p class="sub" id="formSub">Day 1 · The Sole of the City</p>
+
+    <div class="card">
+      <form id="clueForm">
+
+        <div class="row2">
+          <div class="field">
+            <label for="fname">First Name</label>
+            <input id="fname" type="text" placeholder="Chidinma" />
+          </div>
+          <div class="field">
+            <label for="lname">Surname</label>
+            <input id="lname" type="text" placeholder="Okafor" />
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="age">Age</label>
+            <input id="age" type="number" min="18" max="99" placeholder="24" />
+          </div>
+          <div class="field">
+            <label for="whatsapp">WhatsApp Number</label>
+            <input id="whatsapp" type="tel" placeholder="+234 801 234 5678" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input id="email" type="email" placeholder="chidinma@email.com" />
+        </div>
+
+        <div class="field">
+          <label for="answer">Your Answer</label>
+          <textarea id="answer" placeholder="Type your answer to today's clue here..."></textarea>
+        </div>
+
+        <!-- Honeypot field: hidden from real visitors, bots often fill every input -->
+        <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button type="button" class="submit" id="submitBtn">Submit Answer</button>
+      </form>
+      <p class="status-msg" id="statusMsg"></p>
+    </div>
+
+    <p class="foot">#thelasthaunter9ja · Clue Submission</p>
+  </div>
+
+<script>
+  /* ============================================================
+     EDIT THIS BLOCK EACH DAY — nothing else in the file needs to change.
+     ============================================================ */
+  const CLUE_CONFIG = {
+    day: "DAY 1 — MONDAY:",
+    title: "The Sole of the City",
+    clue: "We're not talking about fish. Head to the spot where thousands of soles have passed through for over a century, where leather meets craftsmanship on every shelf. Snap a photo of your team next to the oldest pair on display, and ask the shopkeeper what the strangest repair request they've ever gotten was.",
+    deadline: "DEADLINE: JULY 28, 6:00 PM",
+    formSubtitle: "Day 1 · The Sole of the City",
+    sheetDayLabel: "Day 1 - The Sole of the City" // recorded in the spreadsheet's "Day" column
+  };
+  /* ============================================================ */
+
+  document.getElementById('dayLabel').textContent = CLUE_CONFIG.day;
+  document.getElementById('clueTitle').textContent = CLUE_CONFIG.title;
+  document.getElementById('clueText').textContent = CLUE_CONFIG.clue;
+  document.getElementById('deadlineText').textContent = CLUE_CONFIG.deadline;
+  document.getElementById('formSub').textContent = CLUE_CONFIG.formSubtitle;
+  document.title = "THE LAST HAUNTER 9JA — " + CLUE_CONFIG.title;
+
+  // ================= Google Sheets submission =================
+  const SHEET_WEBHOOK_URL = "PASTE_YOUR_CLUE_ANSWERS_APPS_SCRIPT_URL_HERE";
+
+  const submitBtn = document.getElementById('submitBtn');
+  const statusMsg = document.getElementById('statusMsg');
+
+  function showStatus(text, type) {
+    statusMsg.textContent = text;
+    statusMsg.className = 'status-msg show ' + type;
+  }
+
+  submitBtn.addEventListener('click', async () => {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const answer = document.getElementById('answer').value.trim();
+    const honeypot = document.getElementById('website').value.trim();
+
+    if (honeypot) {
+      showStatus('Answer submitted! Good luck, Hunter.', 'success');
+      submitBtn.textContent = 'Submitted';
+      submitBtn.disabled = true;
+      return;
+    }
+
+    if (!fname || !lname || !age || !whatsapp || !email || !answer) {
+      showStatus('Please fill in all fields before submitting.', 'error');
+      return;
+    }
+    if (SHEET_WEBHOOK_URL.startsWith('PASTE_')) {
+      showStatus('Form is not yet connected to Google Sheets — add the Apps Script URL in the code.', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const payload = new URLSearchParams({
+      timestamp: new Date().toISOString(),
+      firstName: fname,
+      lastName: lname,
+      age: age,
+      whatsapp: whatsapp,
+      email: email,
+      day: CLUE_CONFIG.sheetDayLabel,
+      answer: answer,
+      website: ''
+    });
+
+    try {
+      await fetch(SHEET_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: payload
+      });
+      showStatus('Answer submitted! Good luck, Hunter.', 'success');
+      submitBtn.textContent = 'Submitted';
+    } catch (err) {
+      showStatus('Something went wrong. Please try again.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Answer';
+    }
+  });
+</script>
+
+</body>
+</html>
