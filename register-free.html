@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>THE LAST HAUNTER 9JA — Registration</title>
+<style>
+  :root{
+    --bg:#0A0A0A;
+    --card:#151515;
+    --border:#262626;
+    --orange:#E8590C;
+    --gold:#F5A623;
+    --white:#F5F5F5;
+    --muted:#8A9BB5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--white);
+    display:flex;
+    justify-content:center;
+    padding:48px 16px;
+  }
+  .wrap{ width:100%; max-width:480px; }
+
+  .mark{
+    width:64px; height:64px; border-radius:50%;
+    border:2px solid var(--orange);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px;
+  }
+  .mark svg{ width:30px; height:30px; }
+
+  h1{
+    font-family:Georgia,"Times New Roman",serif;
+    text-align:center;
+    font-size:26px;
+    margin:0 0 4px;
+    letter-spacing:0.5px;
+  }
+  h1 span{ color:var(--orange); }
+  .sub{
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+    margin:0 0 8px;
+  }
+  .free-badge{
+    display:block;
+    text-align:center;
+    color:var(--gold);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    margin:0 0 32px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:28px;
+  }
+
+  .field{ margin-bottom:18px; }
+  .field:last-of-type{ margin-bottom:0; }
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:7px;
+  }
+  input, select{
+    width:100%;
+    padding:12px 14px;
+    background:#0F0F0F;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--white);
+    font-size:15px;
+    font-family:inherit;
+  }
+  input::placeholder{ color:#555; }
+  input:focus, select:focus{
+    outline:none;
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(232,89,12,0.15);
+  }
+  select{ appearance:none; cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%238A9BB5' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:36px;
+  }
+
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+  /* Terms & Conditions */
+  .terms-toggle{
+    width:100%;
+    background:transparent;
+    border:1px dashed var(--border);
+    border-radius:8px;
+    padding:11px;
+    color:var(--muted);
+    font-size:12.5px;
+    cursor:pointer;
+    text-align:center;
+    margin-top:22px;
+    font-family:inherit;
+  }
+  .terms-toggle:hover{ border-color:var(--gold); color:var(--gold); }
+
+  .terms-text{
+    display:none;
+    margin-top:12px;
+    background:#0F0F0F;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px;
+    max-height:260px;
+    overflow-y:auto;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--muted);
+  }
+  .terms-text.open{ display:block; }
+  .terms-text h3{
+    font-size:12px;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:14px 0 6px;
+  }
+  .terms-text h3:first-child{ margin-top:0; }
+  .terms-text p{ margin:0 0 10px; }
+  .terms-text .title{
+    color:var(--white);
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:10px;
+  }
+  .terms-text .signoff{
+    color:var(--white);
+    font-weight:600;
+    margin-top:14px;
+  }
+
+  .terms{
+    margin-top:14px;
+    border:1px solid var(--orange);
+    border-radius:10px;
+    padding:16px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:rgba(232,89,12,0.06);
+  }
+  .terms input[type="checkbox"]{
+    width:18px; height:18px; margin-top:2px; accent-color:var(--orange); flex:none;
+  }
+  .terms p{
+    margin:0; font-size:13px; line-height:1.5; color:var(--white);
+  }
+  .terms button.inline-link{
+    background:none; border:none; padding:0; margin:0;
+    color:var(--gold); text-decoration:underline; cursor:pointer;
+    font-size:13px; font-family:inherit;
+  }
+
+  button.submit{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:var(--orange);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:0.3px;
+    cursor:pointer;
+  }
+  button.submit:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+  }
+
+  .status-msg{
+    margin-top:14px;
+    text-align:center;
+    font-size:13px;
+    display:none;
+  }
+  .status-msg.show{ display:block; }
+  .status-msg.success{ color:#00A651; }
+  .status-msg.error{ color:#E8590C; }
+
+  .foot{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:18px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mark">
+    <svg viewBox="0 0 100 100" fill="none">
+      <circle cx="42" cy="42" r="28" stroke="#E8590C" stroke-width="8"/>
+      <circle cx="42" cy="42" r="7" fill="#E8590C"/>
+      <line x1="62" y1="62" x2="85" y2="85" stroke="#E8590C" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <h1>THE LAST HAUNTER <span>9JA</span></h1>
+  <p class="sub">Hunter Registration</p>
+  <span class="free-badge">Free to Join · Episode 1</span>
+
+  <div class="card">
+
+    <div class="row2">
+      <div class="field">
+        <label for="fname">First Name</label>
+        <input id="fname" type="text" placeholder="Chidinma" />
+      </div>
+      <div class="field">
+        <label for="lname">Last Name</label>
+        <input id="lname" type="text" placeholder="Okafor" />
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="age">Age</label>
+        <input id="age" type="number" min="18" max="99" placeholder="24" />
+      </div>
+      <div class="field">
+        <label for="state">State</label>
+        <select id="state">
+          <option value="">Select state</option>
+          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option>
+          <option>Anambra</option><option>Bauchi</option><option>Bayelsa</option>
+          <option>Benue</option><option>Borno</option><option>Cross River</option>
+          <option>Delta</option><option>Ebonyi</option><option>Edo</option>
+          <option>Ekiti</option><option>Enugu</option><option>FCT — Abuja</option>
+          <option>Gombe</option><option>Imo</option><option>Jigawa</option>
+          <option>Kaduna</option><option>Kano</option><option>Katsina</option>
+          <option>Kebbi</option><option>Kogi</option><option>Kwara</option>
+          <option>Lagos</option><option>Nasarawa</option><option>Niger</option>
+          <option>Ogun</option><option>Ondo</option><option>Osun</option>
+          <option>Oyo</option><option>Plateau</option><option>Rivers</option>
+          <option>Sokoto</option><option>Taraba</option><option>Yobe</option>
+          <option>Zamfara</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="email">Email Address</label>
+      <input id="email" type="email" placeholder="chidinma@email.com" />
+    </div>
+
+    <div class="field">
+      <label for="whatsapp">WhatsApp Number</label>
+      <input id="whatsapp" type="tel" placeholder="+234 801 234 5678" />
+    </div>
+
+    <button type="button" class="terms-toggle" id="termsToggle">Read full Terms &amp; Conditions</button>
+
+    <div class="terms-text" id="termsText">
+      <p class="title">Terms &amp; Conditions — #thelasthaunter9ja Virtual Experience, Episode 1</p>
+
+      <h3>1. Acceptance of Terms</h3>
+      <p>By remaining on this channel and participating in #thelasthaunter9ja, you confirm that you have read, understood, and agree to these Terms and Conditions.</p>
+
+      <h3>2. Participation</h3>
+      <p>This is a skill-based virtual media experience. Participation is free. No fee will be requested from you at any point during the experience.</p>
+
+      <h3>3. Reward</h3>
+      <p>You confirm that you are aware of the stated reward for the winner of #thelasthaunter9ja Episode 1. The reward will be awarded based on the official rules and criteria communicated during the experience.</p>
+
+      <h3>4. Instructions</h3>
+      <p>Further instructions and rules will be provided throughout the experience. Participants are expected to read and follow all instructions as they are made available.</p>
+
+      <h3>5. General</h3>
+      <p>The organizers reserve the right to update these terms or disqualify any participant who violates the rules or acts in bad faith.</p>
+
+      <p class="signoff">Welcome to #thelasthaunter9ja Episode 1. Good luck!</p>
+    </div>
+
+    <div class="terms">
+      <input type="checkbox" id="terms" />
+      <p>I confirm I have read and agree to the <button type="button" class="inline-link" id="termsInlineLink">Terms &amp; Conditions</button> for #thelasthaunter9ja Episode 1.</p>
+    </div>
+
+    <button type="button" class="submit" id="submitBtn">Submit Registration</button>
+    <p class="status-msg" id="statusMsg"></p>
+  </div>
+
+  <p class="foot">Free to participate · #thelasthaunter9ja Episode 1</p>
+
+</div>
+
+<script>
+  // ---- Terms & Conditions expand/collapse ----
+  const termsToggle = document.getElementById('termsToggle');
+  const termsText = document.getElementById('termsText');
+  function toggleTerms() {
+    termsText.classList.toggle('open');
+    termsToggle.textContent = termsText.classList.contains('open')
+      ? 'Hide Terms & Conditions'
+      : 'Read full Terms & Conditions';
+  }
+  termsToggle.addEventListener('click', toggleTerms);
+  document.getElementById('termsInlineLink').addEventListener('click', () => {
+    if (!termsText.classList.contains('open')) toggleTerms();
+    termsText.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // ---- Submit to Google Sheet via Apps Script Web App ----
+  // 1. Create a Google Sheet with header row: Timestamp, First Name, Last Name, Age, State, Email, WhatsApp
+  // 2. Extensions > Apps Script, paste a doPost(e) function that appends e.parameter values as a row
+  // 3. Deploy > New deployment > Web app > Execute as: Me > Who has access: Anyone > copy the deployment URL below
+  const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwmOvkiWuDCwJkSpRRciR75CUJPw489dpq4KbKEniZKrXxDTRMBD8oz5iFN3TWsoB5ZbA/exec";
+
+  const submitBtn = document.getElementById('submitBtn');
+  const statusMsg = document.getElementById('statusMsg');
+
+  function showStatus(text, type) {
+    statusMsg.textContent = text;
+    statusMsg.className = 'status-msg show ' + type;
+  }
+
+  submitBtn.addEventListener('click', async () => {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const state = document.getElementById('state').value;
+    const email = document.getElementById('email').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const terms = document.getElementById('terms').checked;
+
+    if (!fname || !lname || !age || !state || !email || !whatsapp) {
+      showStatus('Please fill in all required fields.', 'error');
+      return;
+    }
+    if (!terms) {
+      showStatus('Please agree to the Terms & Conditions to continue.', 'error');
+      return;
+    }
+    if (SHEET_WEBHOOK_URL.startsWith('PASTE_')) {
+      showStatus('Form is not yet connected to Google Sheets — add the Apps Script URL in the code.', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const payload = new URLSearchParams({
+      timestamp: new Date().toISOString(),
+      firstName: fname,
+      lastName: lname,
+      age: age,
+      state: state,
+      email: email,
+      whatsapp: whatsapp
+    });
+
+    try {
+      await fetch(SHEET_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Apps Script web apps don't return CORS headers
+        body: payload
+      });
+      showStatus('Registration submitted! Welcome to #thelasthaunter9ja Episode 1.', 'success');
+      submitBtn.textContent = 'Submitted';
+    } catch (err) {
+      showStatus('Something went wrong. Please try again or contact us directly.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Registration';
+    }
+  });
+</script>
+
+</body>
+</html>
